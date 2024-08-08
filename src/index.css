@@ -5,6 +5,14 @@
   outline: none;
 }
 
+h3 {
+  font-family: forma-djr-display, sans-serif;
+  font-size: 30px;
+  background: linear-gradient(blue 5%, pink 110%);
+  background-clip: text;
+  color: transparent;
+}
+
 header {
   margin: 0 0 20px 0;
 }
@@ -33,11 +41,6 @@ header {
 }
 
 .header-welcome h3 {
-  font-family: forma-djr-display, sans-serif;
-  font-size: 30px;
-  background: linear-gradient(blue 5%, pink 110%);
-  background-clip: text;
-  color: transparent;
   align-self: flex-end;
 }
 
@@ -75,18 +78,32 @@ header {
 /*Content*/
 
 .content {
-  border: black 2px solid;
+  display: flex;
+  justify-content: space-around;
 }
 
 .task-container {
-  margin: 0 0 0 200px;
+  margin: 0 0 0 100px;
   height: 550px;
   width: 900px;
+  padding: .5rem 1rem;
   border: 2px grey solid;
   border-radius: 2rem;
   display: flex;
   flex-flow: column wrap;
   justify-content: flex-start;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+}
 
+.visual-container {
+  height: 550;
+  width: 300px;
+  border: 2px solid black;
+  padding: .5rem 1rem;
+  border: 2px grey solid;
+  border-radius: 2rem;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
 }
