@@ -58,4 +58,10 @@ function applySvgGradient(svgElement, colors , degree = '0', id = 'gradient'
   targetElement.setAttribute("fill", `url(#${id})`);
 }
 
-export { createElement, addListeners, createSVG, applySvgGradient};
+const createIconButton = (buttonClass, svg) => {
+  const button = createElement('button', buttonClass);
+  button.appendChild(svg);
+  return button;
+};
+
+export { createElement, addListeners, createSVG, applySvgGradient, createIconButton};
