@@ -5,6 +5,10 @@
   outline: none;
 }
 
+header {
+  margin: 0 0 20px 0;
+}
+
 .header-container {
   padding: 20px 50px;
   display: flex;
@@ -16,10 +20,28 @@
   margin: 0 0 0 100px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 
+.header-welcome h1 {
+  font-family: forma-djr-display, sans-serif;
+  font-size: 100px;
+  background: linear-gradient(pink 5%, blue 110%);
+  background-clip: text;
+  color: transparent;
+}
+
+.header-welcome h3 {
+  font-family: forma-djr-display, sans-serif;
+  font-size: 30px;
+  background: linear-gradient(blue 5%, pink 110%);
+  background-clip: text;
+  color: transparent;
+  align-self: flex-end;
+}
+
+/*Nav*/
 .header-nav {
   display: flex;
   flex-direction: row;
@@ -27,11 +49,44 @@
 }
 
 .nav-button {
-  height: 50px;
+  padding: .5rem 1rem;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: purple;
+  line-height: 1;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform .4s;
+  transform-origin: center;
 }
 
-.nav-button i {
-  color: purple;
-  background-color: purple;
-  font-size: 50px;
+.nav-button:hover {
+  transform: scale(1.2);
+}
+
+.icon {
+  height: 60px;
+  width: 60px;
+  transition: width 1s, height 1s;
+}
+
+/*Content*/
+
+.content {
+  border: black 2px solid;
+}
+
+.task-container {
+  margin: 0 0 0 200px;
+  height: 550px;
+  width: 900px;
+  border: 2px grey solid;
+  border-radius: 2rem;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+
 }
