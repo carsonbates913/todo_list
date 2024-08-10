@@ -5,6 +5,14 @@
   outline: none;
 }
 
+h2 {   
+  font-family: forma-djr-display, sans-serif;
+  font-size: 40px;
+  background: linear-gradient(blue 5%, pink 110%);
+  background-clip: text;
+  color: transparent;
+}
+
 h3 {
   font-family: forma-djr-display, sans-serif;
   font-size: 30px;
@@ -106,4 +114,56 @@ header {
   flex-flow: column wrap;
   justify-content: flex-start;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+/*Modal*/
+.task-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 40px;
+  border: 1px solid black;
+  border-radius: 2rem;
+  width: 1000px;
+}
+
+.task-modal::backdrop {
+  backdrop-filter: blur(2px);
+  background-color: transparent;
+}
+
+.task-form {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.right-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.left-side {
+  flex: 1;
+  min-width: 300px;
+}
+.modal-title {
+  margin-bottom: 50px;
+}
+
+.form-div {
+  display: flex;
+  flex-flow: column;
+}
+#description-input {
+  height: 200px;
+}
+
+input[type='text'] {
+  padding: .5rem 1rem;
+  border-radius: 20px;
+  border: 1px black solid;
+  width: 100%;
+  font-size: 25px;
+  font-family: baskerville, sans-serif;
 }

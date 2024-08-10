@@ -2,6 +2,10 @@ import { createElement, addListeners, createSVG, applySvgGradient, createIconBut
 
 
 export function loadPage() {
+  /*Main Page*/
+  const mainPage = createElement('div', 'main-page');
+  document.body.appendChild(mainPage);
+
   /*Header Structure*/
   const header = createElement('header');
   const container = createElement('div', 'header-container');
@@ -26,7 +30,7 @@ export function loadPage() {
   applySvgGradient(taskIcon, ['blue', 'pink'], 0, 'taskGradient');
 
   /*Assemble Header*/
-  document.body.appendChild(header);
+  mainPage.appendChild(header);
   header.appendChild(container);
   container.append(welcome, nav);
   welcome.append(date, greeting);
@@ -34,7 +38,7 @@ export function loadPage() {
 
   /*Content*/
   const content = createElement('div', 'content', '', '');
-  document.body.appendChild(content);
+  mainPage.appendChild(content);
 
   const taskContainer = createElement('div', 'task-container', '', '');
   content.appendChild(taskContainer);
@@ -45,5 +49,6 @@ export function loadPage() {
   const visualContainer = createElement('div', 'visual-container', '', '');
   content.appendChild(visualContainer);
 
+  taskButton.addEventListener("click", () => {document.querySelector('.task-modal').showModal()});
 
 }
