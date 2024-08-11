@@ -23,7 +23,6 @@ export function loadTaskModal() {
 
   const dueDateCheckerLabel = createElement('label', 'toggle-label', {for: 'due-date-checker'}, '');
   const dueDateChecker = createElement('input', '', {type: 'checkbox', id: 'due-date-checker'});
-  const dueDateSlider = createElement('div', 'toggle-slider');
 
   const progressForm = createElement('div', 'form-div');
   const progressLabel = createElement('label', '', {for: 'progress-input'}, 'Progress');
@@ -43,5 +42,5 @@ export function loadTaskModal() {
   progressForm.append(progressLabel, progressInput);
   dueDateForm.append(dueDateLabel, dueDateCheckerLabel)
 
-  dueDateCheckerLabel.append(dueDateChecker, dueDateSlider);
+  dueDateCheckerLabel.append(dueDateChecker);
 }
