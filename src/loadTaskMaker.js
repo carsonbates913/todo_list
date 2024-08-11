@@ -1,34 +1,47 @@
 import { createElement, addListeners, createSVG, applySvgGradient, createIconButton} from './DOMtool.js';
 
 export function loadTaskModal() {
-  const modal = createElement('dialog', 'task-modal', '', '');
+  /*Modal Structure*/
+  const modal = createElement('dialog', 'task-modal');
   const taskForm = createElement('form', 'task-form');
-  const leftSide = createElement('div', 'left-side');
-  const rightSide = createElement('div', "right-side");
+  const leftSide = createElement('div', 'form-section');
+  const rightSide = createElement('div', "form-section");
 
-  const modalTitle = createElement('h2','modal-title', '', 'New Task');
+  /*Modal Sections*/
+  const modalHeader = createElement('h2','', '', 'New Task');
 
   const titleForm = createElement('div', 'form-div');
-  const titleLabel = createElement('label', '', '', 'Title');
-  const titleInput =  createElement('input', 'title-input', {type: 'text'});
+  const titleLabel = createElement('label', '', {for: 'title-input'}, 'Title');
+  const titleInput =  createElement('input','', {type: 'text', id: 'title-input'});
 
   const descriptionForm = createElement('div', 'form-div');
-  const descriptionLabel = createElement('label', '', '', 'Description');
-  const descriptionInput =  createElement('input', 'description-input', {type: 'text', id: 'description-input'});
+  const descriptionLabel = createElement('label', '', {for: 'description-input'}, 'Description');
+  const descriptionInput =  createElement('input', '', {type: 'text', id: 'description-input'});
+
+  const dueDateForm = createElement('div', 'form-div');
+  const dueDateLabel = createElement('label', '', {for: 'due-date-input'}, 'Due Date');
+
+  const dueDateCheckerLabel = createElement('label', 'toggle-label', {for: 'due-date-checker'}, '');
+  const dueDateChecker = createElement('input', '', {type: 'checkbox', id: 'due-date-checker'});
+  const dueDateSlider = createElement('div', 'toggle-slider');
 
   const progressForm = createElement('div', 'form-div');
-  const progressLabel = createElement('label', '', '', 'Progress');
-  const progressInput =  createElement('input','progress-input', {type: 'text'});
+  const progressLabel = createElement('label', '', {for: 'progress-input'}, 'Progress');
+  const progressInput =  createElement('input','', {type: 'text', id: 'progress-input'});
 
   const submitTask = createElement('button', 'task-submit', {type: 'sumbit'}, 'Submit');
 
   /*Assemble Modal*/
-  document.body.appendChild(modal);
-  modal.appendChild(taskForm);
+  document.body.append(modal);
+  modal.append(taskForm);
   taskForm.append(leftSide, rightSide);
-  leftSide.append(modalTitle, titleForm, descriptionForm);
+  leftSide.append(modalHeader, titleForm, descriptionForm);
+  rightSide.append(dueDateForm, progressForm, submitTask);
+
   titleForm.append(titleLabel, titleInput);
   descriptionForm.append(descriptionLabel, descriptionInput);
-  rightSide.append(progressForm, submitTask);
   progressForm.append(progressLabel, progressInput);
+  dueDateForm.append(dueDateLabel, dueDateCheckerLabel)
+
+  dueDateCheckerLabel.append(dueDateChecker, dueDateSlider);
 }

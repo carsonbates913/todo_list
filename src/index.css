@@ -122,36 +122,34 @@ header {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 1000px;
   padding: 40px;
   border: 1px solid black;
   border-radius: 2rem;
-  width: 1000px;
 }
 
 .task-modal::backdrop {
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(8px);
   background-color: transparent;
 }
 
 .task-form {
   display: flex;
   flex-flow: row wrap;
+  gap: 30px;
 }
 
-.right-side {
+.form-section {
   flex: 1;
   min-width: 300px;
 }
 
-.left-side {
-  flex: 1;
-  min-width: 300px;
-}
-.modal-title {
+.task-form h2 {
   margin-bottom: 50px;
 }
 
 .form-div {
+  margin: 20px 0;
   display: flex;
   flex-flow: column;
 }
@@ -161,9 +159,42 @@ header {
 
 input[type='text'] {
   padding: .5rem 1rem;
-  border-radius: 20px;
+  border-radius: 10px;
   border: 1px black solid;
   width: 100%;
-  font-size: 25px;
+  font-size: 20px;
   font-family: baskerville, sans-serif;
 }
+
+label {
+  font-family: forma-djr-display, sans-serif;
+  color: black;
+  font-size: 25px;
+  margin: 0 0 5px 0;
+}
+
+.toggle-label {
+  font-size: 0;
+  width: 60px;
+  height: 25px;
+  border: .5px solid black;
+  border-radius: 20px;
+  position: relative;
+}
+
+input[type='checkbox']{
+  appearance: none;
+  position: absolute;
+  top: -.5px;
+  left: -.5px;
+  bottom: -.5px;
+  width: 25px;
+  border: .5px solid black;
+  border-radius: 20px;
+  background-color: white;
+}
+input[type='checkbox']:checked {
+  background-color: blue;
+}
+
+
