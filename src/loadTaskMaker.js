@@ -7,58 +7,61 @@ export function loadTaskModal() {
   const leftSide = createElement('div', 'form-section');
   const rightSide = createElement('div', "form-section");
 
-
-  function createFormField(sectionName, labelText, hasToggle = false, selectorOptions = []){
+/*Form Field Fuction*/
+  function createFormField(inputId, labelText, inputType, hasToggle = false, selectorOptions = []){
     const form = createElement('div', 'form-div');
-    const label = createElement('label', '', {for: 'title-input'}, `${labelText}`);
-    const input =  createElement('input','', {type: 'text', id: 'title-input'});
+    const label = createElement('label', '', {for: inputId}, labelText);
+    const input =  createElement('input','', {type: inputType, id: inputId});
+    form.append(label, input);
+
+    if(selectorOptions.length != 0){
+      console.log('hello');
+      const select = createElement('select', '', {type: 'select', id: inputId});
+      select.append(createElement('option', '', {value: '', disabled: '', hidden: '', selected: ''}, ''));
+      selectorOptions.forEach(option => {
+        const optionElement = createElement('option', '', {value: `${option}`}, `${option}`);
+        select.append(optionElement);
+      });
+
+      form.removeChild(input);
+      form.append(select);
+    }
+
+    if(hasToggle) {
+      input.style.display = 'none';
+      const toggle = createElement('label', 'toggle-button',{for: `${inputId}-checker`});
+      const thumb = createElement('input', '', {type: 'checkbox', id: `${inputId}-checker`});
+      thumb.addEventListener('change', ()=> {
+        if(thumb.checked){
+          input.style.display ='inline-block';
+        }else {
+          input.style.display = 'none';
+          input.value = '';
+        }
+      });
+      toggle.append(thumb);
+      form.append(toggle);
+    }
+
+    return form;
   }
+  
   /*Modal Sections*/
   const modalHeader = createElement('h2','', '', 'New Task');
 
-  const titleForm = createElement('div', 'form-div');
-  const titleLabel = createElement('label', '', {for: 'title-input'}, 'Title');
-  const titleInput =  createElement('input','', {type: 'text', id: 'title-input'});
-
-  const descriptionForm = createElement('div', 'form-div');
-  const descriptionLabel = createElement('label', '', {for: 'description-input'}, 'Description');
-  const descriptionInput =  createElement('input', '', {type: 'text', id: 'description-input'});
-
-  const dueDateForm = createElement('div', 'form-div');
-  const dueDateLabel = createElement('label', '', {for: 'due-date-input'}, 'Due Date');
-  const dueDateInput = createElement('input', '', {type: 'date', id: 'due-date-input',  style: 'display: none'});
-  const dueDateToggle = createElement('label', 'toggle-button', {for: 'due-date-checker'}, '');
-  const dueDateThumb = createElement('input', '', {type: 'checkbox', id: 'due-date-checker'});
-
-  const workTimeForm = createElement('div', 'form-div');
-  const workTimeLabel = createElement('label', '', {for: 'work-time-input'}, 'Work Period');
-  const workTimeInput = createElement('input', '', {type: 'time', id: 'work-time-input',  style: 'display: none'});
-  const workTimeToggle = createElement('label', 'toggle-button', {for: 'work-time-checker'}, '');
-  const workTimeThumb = createElement('input', '', {type: 'checkbox', id: 'work-time-checker'});
-
-  const progressForm = createElement('div', 'form-div');
-  const progressLabel = createElement('label', '', {for: 'progress-input'}, 'Progress');
-  const progressInput =  createElement('select','', {type: 'select', id: 'progress-input'});
-  progressInput.append(createElement('option', '', {value: '', disabled: '', hidden: '', selected: ''}, ''));
+  const titleForm = createFormField('title-input', 'Title', 'text');
+  const descriptionForm = createFormField('description-input', 'Description', 'text');
+  const dueDateForm = createFormField('due-date-input', 'Due Date', 'date', true);
+  const workTimeForm = createFormField('work-time-input', 'Work Time', 'time', true);
   const progressOptions = [ 'Not Started', 'Just Started', 'Halfway There', 'Almost Done', 'Complete'
   ];
-  progressOptions.forEach(option => {
-    const optionElement = createElement('option', '', {value: `${option}`}, `${option}`);
-    progressInput.append(optionElement);
-  });
-
-  const tagForm = createElement('div', 'form-div');
-  const tagLabel = createElement('label', '', {for: 'tag-input'}, 'Tag');
-  const tagInput =  createElement('select','', {type: 'select', id: 'tag-input'});
-  tagInput.append(createElement('option', '', {value: '', disabled: '', hidden: '', selected: ''}, ''));
+  const progressForm = createFormField('progress-input', 'Progress', 'select', false, progressOptions)
   const tagOptions = [ 'Not Started', 'Just Started', 'Halfway There', 'Almost Done', 'Complete'
   ];
-  tagOptions.forEach(option => {
-    const optionElement = createElement('option', '', {value: `${option}`}, `${option}`);
-    tagInput.append(optionElement);
-  });
+  const tagForm = createFormField('tag-input', 'Tag', 'select', false, tagOptions);
 
   const cancelTask = createElement('button', 'cancel-button', {id: 'cancel-task'}, 'X');
+  cancelTask.addEventListener('click', () => modal.close());
   const submitTask = createElement('button', 'submit-button', {type: 'sumbit'}, 'Submit');
 
   /*Assemble Modal*/
@@ -67,34 +70,4 @@ export function loadTaskModal() {
   taskForm.append(leftSide, rightSide, cancelTask);
   leftSide.append(modalHeader, titleForm, descriptionForm);
   rightSide.append(dueDateForm, workTimeForm, progressForm, tagForm, submitTask);
-
-  titleForm.append(titleLabel, titleInput);
-  descriptionForm.append(descriptionLabel, descriptionInput);
-  progressForm.append(progressLabel, progressInput);
-  dueDateForm.append(dueDateLabel, dueDateToggle, 
-  dueDateInput);
-  workTimeForm.append(workTimeLabel, workTimeToggle, workTimeInput);
-  tagForm.append(tagLabel, tagInput);
-
-  dueDateToggle.append(dueDateThumb);
-  workTimeToggle.append(workTimeThumb);
-
-  dueDateThumb.addEventListener('change', ()=> {
-    if(dueDateThumb.checked){
-      dueDateInput.style.display ='inline-block';
-    }else {
-      dueDateInput.style.display = 'none';
-      dueDateInput.value = '';
-    }
-  });
-
-  workTimeThumb.addEventListener('change', ()=> {
-    if(workTimeThumb.checked){
-      workTimeInput.style.display ='inline-block';
-    }else {
-      workTimeInput.style.display = 'none';
-      workTimeInput.value = '';
-    }
-  });
-  cancelTask.addEventListener('click', () => modal.close());
 }
