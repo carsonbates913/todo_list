@@ -140,6 +140,7 @@ header {
 }
 
 .form-section {
+  position: relative;
   flex: 1;
   min-width: 300px;
 }
@@ -149,6 +150,7 @@ header {
 }
 
 .form-div {
+  position: relative;
   margin: 20px 0;
   display: flex;
   flex-flow: column;
@@ -157,7 +159,7 @@ header {
   height: 200px;
 }
 
-input[type='text'] {
+input[type='text']{
   padding: .5rem 1rem;
   border-radius: 10px;
   border: 1px black solid;
@@ -173,13 +175,13 @@ label {
   margin: 0 0 5px 0;
 }
 
-.toggle-label {
-  font-size: 0;
+.toggle-button{
+  font-size: 0px;
   width: 60px;
   height: 25px;
   border: .5px solid black;
   border-radius: 20px;
-  position: relative;
+  position: relative
 }
 
 input[type='checkbox']{
@@ -194,13 +196,68 @@ input[type='checkbox']{
   background-image: linear-gradient(to right, white 50%,pink 75%, blue 120%);
   background-size: 400%;
   background-position: left;
-  transition: transform 0.6s ease-out, background-position 0.6s ease-out;
+  transition: transform 0.3s ease-out, background-position 0.3s ease-out;
 }
 
 input[type='checkbox']:checked {
   transform: translateX(35px);
   background-position: right;
-
 }
 
+#due-date-input, #work-time-input{
+  height: 34px;
+  width: 200px;
+  font-size: 20px;
+  font-family: baskerville, sans-serif;
+  padding: .25rem .5rem;
+  border-radius: 10px;
+  border: .5px solid black;
+  position: absolute;
+  top: 50%;
+  right: 15%;
+  transform: translateY(-50%);
+}
 
+select {
+  padding: .25rem .5rem;
+  border-radius: 10px;
+  border: 1px black solid;
+  width: 250px;
+  font-size: 20px;
+  font-family: baskerville, sans-serif;
+}
+.submit-button {
+  font-size: 20px;
+  padding: 0.5rem 1.5rem;
+  border: .5px solid black;
+  border-radius: 10px;
+  margin: 20px 0 0 50% ;
+  transform: translateX(-50%);
+  background-image: linear-gradient(45deg, white 25% , pink 50%, blue 120%);
+  background-size: 250px 250px;
+  background-position: bottom left;
+  color: black;
+  font-family: baskerville;
+  transform-origin: center;
+  transition: background-position .6s ease-out, color .6s ease-out, transform .6s ease-out;
+}
+
+.submit-button:hover {
+  color: white;
+  background-position: top right;
+}
+
+.cancel-button {
+  height: 60px;
+  width: 60px;
+  font-size: 50px;
+  position: absolute;
+  border: none;
+  top: 20px;
+  right: 20px;
+  border-radius: 50%;
+  background: transparent;
+  color: grey;
+  font-family: forma-djr-display;
+  cursor: pointer;
+}
