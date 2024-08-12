@@ -1,3 +1,7 @@
+:root {
+  --color-grey: #7f7f7f;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -155,11 +159,8 @@ header {
   display: flex;
   flex-flow: column;
 }
-#description-input {
-  height: 200px;
-}
 
-input[type='text']{
+textArea, input[type='text']{
   padding: .5rem 1rem;
   border-radius: 10px;
   border: 1px black solid;
@@ -168,7 +169,13 @@ input[type='text']{
   font-family: baskerville, sans-serif;
 }
 
+#description-input {
+  height: 200px;
+  color: var(--color-grey);
+}
+
 label {
+  width: fit-content;
   font-family: forma-djr-display, sans-serif;
   color: black;
   font-size: 25px;

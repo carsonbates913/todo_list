@@ -11,21 +11,24 @@ export function loadTaskModal() {
   function createFormField(inputId, labelText, inputType, hasToggle = false, selectorOptions = []){
     const form = createElement('div', 'form-div');
     const label = createElement('label', '', {for: inputId}, labelText);
-    const input =  createElement('input','', {type: inputType, id: inputId});
-    form.append(label, input);
+    let input;
 
-    if(selectorOptions.length != 0){
+    if(inputType== 'select'){
       console.log('hello');
-      const select = createElement('select', '', {type: 'select', id: inputId});
-      select.append(createElement('option', '', {value: '', disabled: '', hidden: '', selected: ''}, ''));
+      input = createElement('select', '', {type: inputType, id: inputId});
+      input.append(createElement('option', '', {value: '', disabled: '', hidden: '', selected: ''}, ''));
       selectorOptions.forEach(option => {
         const optionElement = createElement('option', '', {value: `${option}`}, `${option}`);
-        select.append(optionElement);
+        input.append(optionElement);
       });
-
-      form.removeChild(input);
-      form.append(select);
+    }else if(inputType=='textArea')
+      {
+      input = createElement('textArea','', {type: inputType, id: inputId});
+    }else
+    {
+      input = createElement('input','', {type: inputType, id: inputId});
     }
+    form.append(label, input);
 
     if(hasToggle) {
       input.style.display = 'none';
@@ -45,12 +48,12 @@ export function loadTaskModal() {
 
     return form;
   }
-  
+
   /*Modal Sections*/
   const modalHeader = createElement('h2','', '', 'New Task');
 
   const titleForm = createFormField('title-input', 'Title', 'text');
-  const descriptionForm = createFormField('description-input', 'Description', 'text');
+  const descriptionForm = createFormField('description-input', 'Description', 'textArea');
   const dueDateForm = createFormField('due-date-input', 'Due Date', 'date', true);
   const workTimeForm = createFormField('work-time-input', 'Work Time', 'time', true);
   const progressOptions = [ 'Not Started', 'Just Started', 'Halfway There', 'Almost Done', 'Complete'
@@ -63,6 +66,10 @@ export function loadTaskModal() {
   const cancelTask = createElement('button', 'cancel-button', {id: 'cancel-task'}, 'X');
   cancelTask.addEventListener('click', () => modal.close());
   const submitTask = createElement('button', 'submit-button', {type: 'sumbit'}, 'Submit');
+  submitTask.addEventListener('click', () => {
+    preventDefault();
+    addTask();
+  })
 
   /*Assemble Modal*/
   document.body.append(modal);
