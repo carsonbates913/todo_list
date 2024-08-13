@@ -1,5 +1,7 @@
 import { createElement, addListeners, createSVG, applySvgGradient, createIconButton} from './DOMtool.js';
 
+import {Task} from './createTask.js';
+
 export function loadTaskModal() {
   /*Modal Structure*/
   const modal = createElement('dialog', 'task-modal');
@@ -14,7 +16,6 @@ export function loadTaskModal() {
     let input;
 
     if(inputType== 'select'){
-      console.log('hello');
       input = createElement('select', '', {type: inputType, id: inputId});
       input.append(createElement('option', '', {value: '', disabled: '', hidden: '', selected: ''}, ''));
       selectorOptions.forEach(option => {
@@ -64,12 +65,28 @@ export function loadTaskModal() {
   const tagForm = createFormField('tag-input', 'Tag', 'select', false, tagOptions);
 
   const cancelTask = createElement('button', 'cancel-button', {id: 'cancel-task'}, 'X');
-  cancelTask.addEventListener('click', () => modal.close());
-  const submitTask = createElement('button', 'submit-button', {type: 'sumbit'}, 'Submit');
-  submitTask.addEventListener('click', () => {
-    preventDefault();
-    addTask();
-  })
+  cancelTask.addEventListener('click', (event) => {
+    event.preventDefault();
+    modal.close()});
+
+  const submitTask = createElement('button', 'submit-button', '', 'Submit');
+  submitTask.addEventListener('click', handleSubmitTask)
+
+  function handleSubmitTask(event) {
+    event.preventDefault();
+    modal.close();
+    const title = document.querySelector('#title-input').value;
+    const description = document.querySelector('#description-input').value;
+    const dueDate = document.querySelector('#due-date-input').value;
+    const workTime = document.querySelector('#work-time-input').value;
+    const progressInput = document.querySelector('#progress-input').value;
+    const tag = document.querySelector('#tag-input').value;
+
+    const task = new Task(title, description, dueDate, workTime, progressInput, tag);
+    task.addTask();
+    clearInputs();
+
+  }
 
   /*Assemble Modal*/
   document.body.append(modal);
@@ -77,4 +94,13 @@ export function loadTaskModal() {
   taskForm.append(leftSide, rightSide, cancelTask);
   leftSide.append(modalHeader, titleForm, descriptionForm);
   rightSide.append(dueDateForm, workTimeForm, progressForm, tagForm, submitTask);
+}
+
+function clearInputs() {
+  document.querySelector('#title-input').value = '';
+  document.querySelector('#description-input').value = '';
+  document.querySelector('#due-date-input').value = '';
+  document.querySelector('#work-time-input').value = '';
+  document.querySelector('#progress-input').value = '';
+  document.querySelector('#tag-input').value ='';
 }

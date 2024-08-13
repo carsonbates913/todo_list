@@ -22,7 +22,7 @@ export function loadPage() {
   /*Icont Button Creation*/
   const menuButton = createIconButton('menu nav-button', menuIcon);
   const filterButton = createIconButton('filter nav-button', filterIcon);
-  const taskButton = createIconButton('task nav-button', taskIcon);
+  const taskButton = createIconButton('nav-button', taskIcon);
 
   /*Apply Gradients*/
   applySvgGradient(filterIcon, ['blue', 'pink'], 0, 'filterGradient');
@@ -40,11 +40,13 @@ export function loadPage() {
   const content = createElement('div', 'content', '', '');
   mainPage.appendChild(content);
 
-  const taskContainer = createElement('div', 'task-container', '', '');
-  content.appendChild(taskContainer);
+  const taskSection = createElement('div', 'task-section', '', '');
+  content.appendChild(taskSection);
 
   const taskHeader = createElement('h3', '', '', 'Tasks');
-  taskContainer.appendChild(taskHeader);
+  const taskContainer = createElement('div', 'task-container');
+  taskSection.append(taskHeader, taskContainer);
+
 
   const visualContainer = createElement('div', 'visual-container', '', '');
   content.appendChild(visualContainer);

@@ -94,17 +94,20 @@ header {
   justify-content: space-around;
 }
 
-.task-container {
+.task-section {
   margin: 0 0 0 100px;
   height: 550px;
   width: 900px;
   padding: .5rem 1rem;
-  border: 2px grey solid;
-  border-radius: 2rem;
   display: flex;
-  flex-flow: column wrap;
-  justify-content: flex-start;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+  flex-flow: column nowrap;
+  overflow-x: visible;
+  overflow-y: visible;
+}
+
+.task-container {
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .visual-container {
@@ -203,7 +206,7 @@ input[type='checkbox']{
   background-image: linear-gradient(to right, white 50%,pink 75%, blue 120%);
   background-size: 400%;
   background-position: left;
-  transition: transform 0.3s ease-out, background-position 0.3s ease-out;
+  transition: transform 0.4s ease-out, background-position 0.4s ease-out;
 }
 
 input[type='checkbox']:checked {
@@ -267,4 +270,60 @@ select {
   color: grey;
   font-family: forma-djr-display;
   cursor: pointer;
+}
+
+/*Task*/
+
+.task {
+  width: 100%;
+  border: .5px solid black;
+  border-radius: 20px;
+  margin: 10px 0; 
+  display: flex;
+  flex-flow: row nowrap;
+  transition: transform 0.4s ease-out, margin 0.4s ease-out;
+  transform-origin: center;
+}
+.task:hover{
+  transform: scale(1.1);
+  margin: 20px 0;
+}
+
+.task-text {
+  height: 84px;
+  padding: 1.5rem 1.5rem;
+  flex: 1;
+  border-right: 1px solid var(--color-grey);
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  transition: height .3s ease-in-out;
+}
+
+.task-text p {
+  opacity: 0;
+  position: absolute;
+  bottom: 10px;
+  display: inline-block;
+  transition-delay: 0s;
+  transition: opacity .2s ease-out;
+  font-family: baskerville, sans-serif;
+}
+
+.task:hover > .task-text {
+  height: 130px;
+  justify-content: space-between;
+}
+
+.task:hover > .task-text p{
+  opacity: 1;
+  transition-delay: .2s;
+}
+
+.task-text:hover > .task-description {
+  display: inline-block;
+}
+
+.task-properties {
+  min-width: 300px;
 }
