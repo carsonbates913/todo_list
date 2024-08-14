@@ -1,5 +1,6 @@
 :root {
   --color-grey: #7f7f7f;
+  --color-light-grey: #f4f4f8;
 }
 
 * {
@@ -81,7 +82,7 @@ header {
   transform: scale(1.2);
 }
 
-.icon {
+.header-icon {
   height: 60px;
   width: 60px;
   transition: width 1s, height 1s;
@@ -283,17 +284,22 @@ select {
   flex-flow: row nowrap;
   transition: transform 0.4s ease-out, margin 0.4s ease-out;
   transform-origin: center;
+  overflow: hidden;
 }
 .task:hover{
   transform: scale(1.1);
   margin: 20px 0;
 }
 
+.task:hover > .task-text {
+  height: 120px;
+  justify-content: space-between;
+}
+
 .task-text {
   height: 84px;
   padding: 1.5rem 1.5rem;
   flex: 1;
-  border-right: 1px solid var(--color-grey);
   position: relative;
   display: flex;
   flex-flow: column nowrap;
@@ -301,18 +307,16 @@ select {
 }
 
 .task-text p {
-  opacity: 0;
+  font-size: 17px;
+  max-height: 50px;
+  overflow-y: scroll;
   position: absolute;
-  bottom: 10px;
-  display: inline-block;
+  bottom: 15px;
+  font-family: baskerville, sans-serif;
+  color: var(--color-grey);
+  opacity: 0;
   transition-delay: 0s;
   transition: opacity .2s ease-out;
-  font-family: baskerville, sans-serif;
-}
-
-.task:hover > .task-text {
-  height: 130px;
-  justify-content: space-between;
 }
 
 .task:hover > .task-text p{
@@ -325,5 +329,62 @@ select {
 }
 
 .task-properties {
-  min-width: 300px;
+  min-width: 400px;
+  position: relative; 
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  overflow-x: hidden;
+}
+
+.task:hover .icon-section {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.task:hover .property {
+  transform: translateY(20px);
+}
+
+.property {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 80px;
+  transition: transform .4s ease-out;
+}
+
+.icon-section {
+  width: 100%;
+  height: 35px;
+  border-bottom-left-radius: 25px;
+  position: absolute;
+  top: 0;
+  transform: translateY(-20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 70px;
+  background-color: var(--color-light-grey);
+  opacity: 0;
+  transition: opacity .4s ease-out, transform .4s ease-out;
+}
+
+.task-icon {
+  position: relative;
+  height: 30px;
+  width: 30px;
+  fill: black;
+}
+
+.task-icon::before {
+  content: 'Due Date';
+  height: 20px;
+  width: 100px;
+  position: absolute;
+  top: 0; 
+  font-size: 15px;
 }

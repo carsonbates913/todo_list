@@ -16,7 +16,7 @@ function addListeners(element, events){
   }
 }
 
-function createSVG(viewBox, path){
+function createSVG(viewBox, path, className){
   const svgns = "http://www.w3.org/2000/svg";
 
   const svgElement = document.createElementNS(svgns, "svg");
@@ -26,7 +26,7 @@ function createSVG(viewBox, path){
 
   svgElement.appendChild(svgPath);
 
-  svgElement.classList.add("icon");
+  svgElement.classList.add(className);
 
   return svgElement;
 }
