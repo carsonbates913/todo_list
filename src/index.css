@@ -328,6 +328,8 @@ select {
   display: inline-block;
 }
 
+/*Task Properties*/
+
 .task-properties {
   min-width: 400px;
   position: relative; 
@@ -349,11 +351,12 @@ select {
 }
 
 .property {
+  width: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 80px;
+  font-family: forma-djr-display;
   transition: transform .4s ease-out;
 }
 
@@ -380,11 +383,55 @@ select {
   fill: black;
 }
 
-.task-icon::before {
-  content: 'Due Date';
-  height: 20px;
-  width: 100px;
+.icon-div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#due-date-icon::before,
+#work-time-icon::before,
+#progress-icon::before,
+#category-icon::before {
+  padding: .25rem .5rem;
+  border-radius: 5px;
   position: absolute;
-  top: 0; 
-  font-size: 15px;
+  bottom: -30px;
+  left: 50%;
+  font-size: 10px;
+  font-family: baskerville, sans-serif;
+  color: black;
+  background-color: var(--color-light-grey);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-50%) scale(0);
+  transform-origin: center;
+  transition: opacity .4s ease-out;
+}
+
+#due-date-icon::before {
+  content: 'Due Date';
+}
+
+#work-time-icon::before {
+  content: 'Work Time';
+}
+
+#progress-icon::before {
+  content: 'Progress';
+}
+
+#category-icon::before {
+  content: 'Category';
+}
+
+
+#due-date-icon:hover::before,
+#work-time-icon:hover::before,
+#progress-icon:hover::before,
+#category-icon:hover::before
+{
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
 }
