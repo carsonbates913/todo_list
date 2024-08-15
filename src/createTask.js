@@ -14,11 +14,11 @@ export class Task {
 
   addTask() {
     taskLibrary.push(this);
-    this.generateTasks();
-    console.log(taskLibrary);
+    generateTasks();
   }
+}
 
-  generateTasks() {
+  function generateTasks() {
     const container = document.querySelector('.task-container');
     container.innerHTML = '';
     taskLibrary.forEach( task => {
@@ -58,5 +58,4 @@ export class Task {
       container.append(taskElement);
     });
   }
-}
 
