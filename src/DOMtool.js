@@ -25,7 +25,6 @@ function createSVG(viewBox, path, className){
   svgPath.setAttribute("d", path);
 
   svgElement.appendChild(svgPath);
-
   svgElement.classList.add(className);
 
   return svgElement;

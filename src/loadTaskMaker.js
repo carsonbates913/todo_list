@@ -57,10 +57,10 @@ export function loadTaskModal() {
   const descriptionForm = createFormField('description-input', 'Description', 'textArea');
   const dueDateForm = createFormField('due-date-input', 'Due Date', 'date', true);
   const workTimeForm = createFormField('work-time-input', 'Work Time', 'time', true);
-  const progressOptions = [ 'Not Started', 'Just Started', 'Halfway There', 'Almost Done', 'Complete'
+  const progressOptions = [ 'Not Started', 'Starting', 'Halfway', 'Almost', 'Complete'
   ];
   const progressForm = createFormField('progress-input', 'Progress', 'select', false, progressOptions)
-  const tagOptions = [ 'Not Started', 'Just Started', 'Halfway There', 'Almost Done', 'Complete'
+  const tagOptions = [ 'Academics', 'Work', 'Health', 'Personal', 'Chore'
   ];
   const tagForm = createFormField('tag-input', 'Tag', 'select', false, tagOptions);
 

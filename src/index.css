@@ -92,15 +92,15 @@ header {
 
 .content {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .task-section {
-  margin: 0 0 0 0px;
+  margin: 0 0 0 60px;
   height: 550px;
-  max-width: 1000px;
+  max-width: 1050px;
   flex: 1;
-  padding: 8px 46px;
+  padding: 8px 50px;
   display: flex;
   flex-flow: column nowrap;
   overflow-x: hidden;
@@ -119,6 +119,7 @@ header {
   padding: .5rem 1rem;
   border: 2px grey solid;
   border-radius: 2rem;
+  margin: 0 50px 0 0;
   display: flex;
   flex-flow: column wrap;
   justify-content: flex-start;
@@ -126,26 +127,22 @@ header {
 }
 
 /*Task*/
-
 .task {
   width: 100%;
   border: .5px solid black;
   border-radius: 20px;
   margin: 10px 0; 
+  position: relative;
   display: flex;
   flex-flow: row nowrap;
+  overflow: hidden;
   transition: transform 0.4s ease-out, margin 0.4s ease-out;
   transform-origin: center;
-  overflow: hidden;
 }
+
 .task:hover{
   transform: scale(1.1);
   margin: 20px 0;
-}
-
-.task:hover > .task-text {
-  height: 120px;
-  justify-content: space-between;
 }
 
 .task-text {
@@ -158,14 +155,18 @@ header {
   transition: height .3s ease-in-out;
 }
 
+.task:hover > .task-text {
+  height: 120px;
+}
+
 .task-text p {
   font-size: 17px;
   max-height: 50px;
-  overflow-y: scroll;
   position: absolute;
   bottom: 15px;
   font-family: baskerville, sans-serif;
   color: var(--color-grey);
+  overflow-y: scroll;
   opacity: 0;
   transition-delay: 0s;
   transition: opacity .2s ease-out;
@@ -176,30 +177,15 @@ header {
   transition-delay: .2s;
 }
 
-.task-text:hover > .task-description {
-  display: inline-block;
-}
-
 /*Task Properties*/
-
 .task-properties {
-  padding: 0 10px;
+  padding: 0 84px 0 0;
   position: relative; 
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
   gap: 20px;
-  overflow-x: hidden;
-}
-
-.task:hover .icon-section {
-  opacity: 1;
-  transform: translateY(0px);
-}
-
-.task:hover .property {
-  transform: translateY(20px);
 }
 
 .property {
@@ -209,19 +195,25 @@ header {
   align-items: center;
   text-align: center;
   font-family: forma-djr-display;
-  transition: transform .4s ease-out;
   white-space: nowrap;
+  transition: transform .4s ease-out;
+}
+
+.task:hover .property {
+  transform: translateY(20px);
 }
 
 .icon-section {
   width: 100%;
   height: 35px;
+  padding: 0 10px;
   border-bottom-left-radius: 25px;
   position: absolute;
   top: 0;
+  left: 0;
   transform: translateY(-20px);
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   gap: 70px;
   background-color: var(--color-light-grey);
@@ -229,8 +221,12 @@ header {
   transition: opacity .4s ease-out, transform .4s ease-out;
 }
 
+.task:hover .icon-section {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
 .task-icon {
-  position: relative;
   height: 30px;
   width: 30px;
   fill: black;
@@ -247,16 +243,16 @@ header {
 #work-time-icon::before,
 #progress-icon::before,
 #category-icon::before {
+  font-size: 10px;
   padding: .25rem .5rem;
   border-radius: 5px;
   position: absolute;
   bottom: -30px;
   left: 50%;
-  font-size: 10px;
   font-family: baskerville, sans-serif;
   color: black;
-  background-color: var(--color-light-grey);
   white-space: nowrap;
+  background-color: var(--color-light-grey);
   opacity: 0;
   transform: translateX(-50%) scale(0);
   transform-origin: center;
@@ -266,15 +262,12 @@ header {
 #due-date-icon::before {
   content: 'Due Date';
 }
-
 #work-time-icon::before {
   content: 'Work Time';
 }
-
 #progress-icon::before {
   content: 'Progress';
 }
-
 #category-icon::before {
   content: 'Category';
 }
@@ -287,6 +280,19 @@ header {
 {
   opacity: 1;
   transform: translateX(-50%) scale(1);
+}
+
+/*Options Button*/
+
+#task-options {
+}
+
+#task-options svg{
+  fill: var(--color-grey);
+}
+
+.options-bar {
+  display: none;
 }
 
 /*Modal*/
