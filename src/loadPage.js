@@ -40,7 +40,7 @@ export function loadPage() {
   const content = createElement('div', 'content', '', '');
   mainPage.appendChild(content);
 
-  const taskSection = createElement('div', 'task-section', '', '');
+  const taskSection = createElement('div', 'task-section container-scroll', '', '');
   content.appendChild(taskSection);
 
   const taskHeader = createElement('h3', '', '', 'Tasks');
@@ -52,5 +52,16 @@ export function loadPage() {
   content.appendChild(visualContainer);
 
   taskButton.addEventListener("click", () => {document.querySelector('.task-modal').showModal()});
+
+  /*Popup*/
+  const popupContainer = createElement('div', 'popup-container');
+
+  const optionsBar = createElement('div', 'options-bar popup-hidden');
+  const editButton = createElement('button', 'options-button', '', 'Edit');
+  const deleteButton = createElement('button', 'options-button', '', 'Delete');
+  
+  optionsBar.append(editButton, deleteButton);
+  popupContainer.append(optionsBar);
+  document.body.append(popupContainer);
 
 }

@@ -10,6 +10,11 @@
   outline: none;
 }
 
+.hidden {
+  display: none;
+}
+
+
 h2 {   
   font-family: forma-djr-display, sans-serif;
   font-size: 40px;
@@ -104,6 +109,10 @@ header {
   display: flex;
   flex-flow: column nowrap;
   overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.container-scroll {
   overflow-y: scroll;
 }
 
@@ -127,7 +136,7 @@ header {
 }
 
 /*Task*/
-.task {
+.task{
   width: 100%;
   border: .5px solid black;
   border-radius: 20px;
@@ -140,10 +149,16 @@ header {
   transform-origin: center;
 }
 
-.task:hover{
+.task:hover,
+.task.freeze {
   transform: scale(1.1);
   margin: 20px 0;
 }
+
+.no-hover .task:not(.freeze) {
+  pointer-events: none;
+}
+
 
 .task-text {
   height: 84px;
@@ -155,7 +170,8 @@ header {
   transition: height .3s ease-in-out;
 }
 
-.task:hover > .task-text {
+.task:hover > .task-text,
+.task.freeze > .task-text {
   height: 120px;
 }
 
@@ -172,7 +188,8 @@ header {
   transition: opacity .2s ease-out;
 }
 
-.task:hover > .task-text p{
+.task:hover > .task-text p,
+.task.freeze > .task-text p {
   opacity: 1;
   transition-delay: .2s;
 }
@@ -199,7 +216,8 @@ header {
   transition: transform .4s ease-out;
 }
 
-.task:hover .property {
+.task:hover .property,
+.task.freeze .property {
   transform: translateY(20px);
 }
 
@@ -221,7 +239,8 @@ header {
   transition: opacity .4s ease-out, transform .4s ease-out;
 }
 
-.task:hover .icon-section {
+.task:hover .icon-section,
+.task.freeze .icon-section {
   opacity: 1;
   transform: translateY(0px);
 }
@@ -291,7 +310,52 @@ header {
   fill: var(--color-grey);
 }
 
+
+/*Popup*/
+.popup-container{
+}
+
 .options-bar {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  position: absolute;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: 75px;
+  grid-auto-rows: 30px;
+  gap: 3px;
+  background-color: white;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.106);
+}
+
+.options-button {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 0.25rem .5rem;
+  border: none;
+  font-family: baskerville;
+  background-color: white;
+}
+
+.options-button:hover {
+  background-color: var(--color-light-grey);
+}
+
+.options-button:not(:last-child)::after {
+  content: '';
+  background-color: var(--color-grey);
+  height: 1px;
+  width: 20px;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(1px);
+  z-index: 1;
+}
+
+.popup-hidden {
   display: none;
 }
 
@@ -443,3 +507,4 @@ select {
   font-family: forma-djr-display;
   cursor: pointer;
 }
+

@@ -21,6 +21,8 @@ export class Task {
   function generateTasks() {
     const container = document.querySelector('.task-container');
     container.innerHTML = '';
+
+    /*Tasks*/
     taskLibrary.forEach( task => {
       /*Task Structure*/
       const taskElement = createElement('div', 'task');
@@ -56,15 +58,41 @@ export class Task {
       const categoryDiv = createElement('div','icon-div', {id: 'category-icon'});
       categoryDiv.append(categoryIcon);
 
-      /*Delete Button*/
+      /*Options Popover*/
       const taskOptions = createElement('div', 'icon-div', {id: 'task-options'});
       const optionsIcon = createSVG("0 0 448 512", "M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z", 'task-icon');
-      const optionsBar = createElement('div', 'options-bar');
-      const editButton = createElement('button', 'options-item', '', 'Edit');
-      const deleteButton = createElement('button', 'options-item', '', 'Delete');
-      
-      taskOptions.append(optionsIcon, optionsBar);
-      optionsBar.append(editButton, deleteButton);
+
+      taskOptions.append(optionsIcon);
+      taskOptions.addEventListener('click', () => {
+
+        const section = document.querySelector('.task-section');
+        const options = document.querySelector('.options-bar');
+
+        const rect = taskOptions.getBoundingClientRect();
+        console.log(rect);
+        options.style = `top: ${rect.bottom}px; left: ${rect.right - (rect.width/2)}px;`;
+
+
+        options.classList.toggle('popup-hidden');
+        section.classList.toggle('container-scroll');
+        section.classList.toggle('no-hover');
+        taskElement.classList.toggle('freeze');
+
+        document.addEventListener('click', hideOptionsPopup);
+
+        function hideOptionsPopup(event) {
+          if(!options.contains(event.target) && !(taskOptions.contains(event.target))){
+            options.classList.toggle('popup-hidden');
+            section.classList.toggle('container-scroll');
+            section.classList.toggle('no-hover');
+            taskElement.classList.toggle('freeze');
+  
+            document.removeEventListener('click', hideOptionsPopup);
+        }
+        }
+      });
+  
+  
 
 
       /*Assemble Task*/
