@@ -1,6 +1,9 @@
 import { createElement, addListeners, createSVG, applySvgGradient, createIconButton} from './DOMtool.js';
 
-const taskLibrary = [];
+const taskLibrary = JSON.parse(localStorage.getItem('taskLibrary'));
+let currentTask = null;
+let isOptionsVisible = false;
+let currentIndex = null;
 
 export class Task {
   constructor(title, description, dueDate, workTime, progress, tag){
@@ -14,16 +17,18 @@ export class Task {
 
   addTask() {
     taskLibrary.push(this);
+    localStorage.setItem('taskLibrary', JSON.stringify(taskLibrary));
     generateTasks();
   }
 }
 
-function generateTasks() {
+export function generateTasks() {
   const container = document.querySelector('.task-container');
   container.innerHTML = '';
 
+  const tasks = JSON.parse(localStorage.getItem('taskLibrary'))
   /*Tasks*/
-  taskLibrary.forEach((task, index) => {
+  tasks.forEach((task, index) => {
     /*Task Structure*/
     const taskElement = createElement('div', 'task');
     const textSection = createElement('div', 'task-text');
@@ -32,7 +37,7 @@ function generateTasks() {
     /*Text Section*/
     const title = createElement('h3', '', '', task.title);
     const description = createElement('p', '', '', task.description);
-
+ 
     /*Properties Section*/
     const dueDate = createElement('div', 'property', '', `${task.dueDate ? task.dueDate : 'N/A'}`);
     const workTime = createElement('div', 'property', '', `${task.workTime ? task.workTime : 'N/A'}`);
@@ -64,6 +69,8 @@ function generateTasks() {
 
     taskOptions.append(optionsIcon);
     taskOptions.addEventListener('click', (event) =>{
+      currentTask = taskElement;
+      currentIndex = index;
       handleTaskOptions(event, index);
     }
     );
@@ -87,18 +94,17 @@ function handleTaskOptions(event, index) {
       createOptionsPopup(index);
 
   /*Adjust Popup Position*/
-  positionPopup(event.target);
+  positionPopup(currentTask.querySelector('#task-options'));
 
   /*Toggle Hidden Class*/
-  toggleOptionsDisplay();
+  toggleOptionsVisibility();
   toggleFreezeSection();
 
   /*Freeze Task*/
-  const taskElement = event.target.closest('.task');
-  taskElement.classList.toggle('freeze');
+  currentTask.classList.toggle('freeze');
 
   /*Add Hide Popup Listener*/
-  if(!optionsPopup.classList.contains('popup-hidden')){
+  if(isOptionsVisible){
     document.addEventListener('click', closeOptionsPopup);
     console.log('add');
   }else {
@@ -113,6 +119,7 @@ function createOptionsPopup(index) {
   const optionsPopup = createElement('div', 'options-popup popup-hidden', {id: 'options-popup'});
 
   const editButton = createElement('button', 'options-button', {id: 'edit-button'}, 'Edit');
+  editButton.addEventListener('click', ()=> {handleEditTask(index)});
 
   const deleteButton = createElement('button', 'options-button', {id: 'delete-button'}, 'Delete');
   deleteButton.addEventListener('click', () => {handleDeleteTask(index)});
@@ -123,9 +130,24 @@ function createOptionsPopup(index) {
   function handleDeleteTask(index) {
     console.log(taskLibrary);
     taskLibrary.splice(index, 1);
+    localStorage.setItem('taskLibrary', JSON.stringify(taskLibrary));
     console.log(taskLibrary);
-    deleteButton.removeEventListener('click', handleDeleteTask);
+    toggleFreezeSection();
+    toggleOptionsVisibility();
+    currentTask = null;
+    document.removeEventListener('click', closeOptionsPopup);
     generateTasks();
+  }
+
+  function handleEditTask(index) {
+    document.querySelector('.task-modal').showModal();
+    const task = taskLibrary[index];
+    document.querySelector('#title-input').value = task.title;
+    document.querySelector('#description-input').value = task.description;
+    document.querySelector('#due-date-input').value = task.dueDate;
+    document.querySelector('#work-time-input').value = task.workTime;
+    document.querySelector('#progress-input').value = task.progress;
+    document.querySelector('#tag-input').value = task.tag;
   }
 
   return optionsPopup;
@@ -138,14 +160,15 @@ function closeOptionsPopup(event) {
   if(!optionsPopup.contains(event.target) && !(document.querySelector('#task-options').contains(event.target))){
       console.log('inHide')
       toggleFreezeSection();
-      toggleOptionsDisplay();
-      document.querySelector('.task.freeze').classList.toggle('freeze');
+      toggleOptionsVisibility();
+      currentTask.classList.toggle('freeze');
       document.removeEventListener('click', closeOptionsPopup);
   }
 }
 
-function toggleOptionsDisplay() {
+function toggleOptionsVisibility() {
   document.querySelector('#options-popup').classList.toggle('popup-hidden');
+  isOptionsVisible = !isOptionsVisible;
 }
 
 function positionPopup(anchor) {

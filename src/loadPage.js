@@ -1,5 +1,6 @@
 import { createElement, addListeners, createSVG, applySvgGradient, createIconButton} from './DOMtool.js';
 
+import {generateTasks} from './createTask.js'
 
 export function loadPage() {
   /*Main Page*/
@@ -57,4 +58,6 @@ export function loadPage() {
   const popupContainer = createElement('div', '', {id: 'popup-container'});
   document.body.append(popupContainer);
 
+  /*Load Tasks*/
+  generateTasks();
 }
