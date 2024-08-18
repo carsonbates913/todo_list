@@ -20,6 +20,7 @@ export class Task {
 
   function generateTasks() {
     const container = document.querySelector('.task-container');
+    const section = document.querySelector('.task-section');
     container.innerHTML = '';
 
     /*Tasks*/
@@ -63,7 +64,10 @@ export class Task {
       const optionsIcon = createSVG("0 0 448 512", "M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z", 'task-icon');
 
       taskOptions.append(optionsIcon);
-      taskOptions.addEventListener('click', (event) => {handleShowPopup(event, taskElement, index)});
+      taskOptions.addEventListener('click', (event) =>{
+        showPopup(event, index);
+      }
+      );
 
       /*Assemble Task*/
       taskElement.append(textSection, propertiesSection);
@@ -72,23 +76,62 @@ export class Task {
       iconSection.append(dueDateDiv, workTimeDiv, progressDiv, categoryDiv, taskOptions);
 
       container.append(taskElement);
+
+      function hideOptionsPopup(event) {
+        console.log('hide');
+        const section = document.querySelector('.task-section');
+        const taskOptions = document.querySelector('#task-options');
+        const optionsPopup = document.querySelector('#options-popup')
+        if(!optionsPopup.contains(event.target) && !(taskOptions.contains(event.target))){
+            console.log('inHide')
+            optionsPopup.classList.toggle('popup-hidden');
+            section.classList.toggle('container-scroll');
+            section.classList.toggle('no-hover');
+            taskElement.classList.toggle('freeze');
+            document.removeEventListener('click', hideOptionsPopup);
+        }
+      }
+      function showPopup(event, index) {
+        event.stopPropagation();
+        /*Check Popup Exists*/
+          const optionsPopup = document.querySelector('#options-popup') ?
+            document.querySelector('#options-popup') :
+            createOptionsPopup(index);
+          const taskOptions = document.querySelector('#task-options');
+    
+        /*Adjust Popup Position*/
+        const rect = taskOptions.getBoundingClientRect();
+        console.log(rect);
+        optionsPopup.style = `top: ${rect.bottom}px; left: ${rect.right - (rect.width/2)}px;`;
+    
+        /*Toggle Hidden Class*/
+        optionsPopup.classList.toggle('popup-hidden');
+
+        section.classList.toggle('container-scroll');
+        section.classList.toggle('no-hover');
+        taskElement.classList.toggle('freeze');
+    
+        /*Add Hide Popup Listener*/
+    
+        if(!optionsPopup.classList.contains('popup-hidden')){
+          document.addEventListener('click', hideOptionsPopup);
+          console.log('add');
+        }else {
+          document.removeEventListener('click', hideOptionsPopup)
+          console.log('remove');
+        }
+      }
+
     });
   }
 
+    function createOptionsPopup(index) {
+      const optionsPopup = createElement('div', 'options-popup popup-hidden', {id: 'options-popup'});
 
-  function handleShowPopup(event, taskElement, index) {
-    event.stopPropagation();
-    let optionsPopup = document.querySelector('#options-popup');
-    let editButton = document.querySelector('#edit-button');
-    let deleteButton = document.querySelector('#delete-button');
-    
-    /*Check Popup Exists*/
-    if(!optionsPopup){
-      optionsPopup = createElement('div', 'options-popup popup-hidden', {id: 'options-popup'});
-      editButton = createElement('button', 'options-button', {id: 'edit-button'}, 'Edit');
+      const editButton = createElement('button', 'options-button', {id: 'edit-button'}, 'Edit');
 
-      deleteButton = createElement('button', 'options-button', {id: 'delete-button'}, 'Delete');
-      deleteButton.addEventListener('click', (event) => {handleDeleteTask(index)});
+      const deleteButton = createElement('button', 'options-button', {id: 'delete-button'}, 'Delete');
+      deleteButton.addEventListener('click', () => {handleDeleteTask(index)});
 
       optionsPopup.append(editButton, deleteButton);
       document.querySelector('#popup-container').append(optionsPopup);
@@ -100,33 +143,6 @@ export class Task {
         deleteButton.removeEventListener('click', handleDeleteTask);
         generateTasks();
       }
+
+      return optionsPopup;
     }
-    const section = document.querySelector('.task-section');
-    const taskOptions = document.querySelector('#task-options');
-
-    /*Adjust Popup Position*/
-    const rect = taskOptions.getBoundingClientRect();
-    console.log(rect);
-    optionsPopup.style = `top: ${rect.bottom}px; left: ${rect.right - (rect.width/2)}px;`;
-
-    /*Toggle Style Classes*/
-    optionsPopup.classList.toggle('popup-hidden');
-    section.classList.toggle('container-scroll');
-    section.classList.toggle('no-hover');
-    taskElement.classList.toggle('freeze');
-
-    /*Add Hide Popup Listener*/
-    document.addEventListener('click', hideOptionsPopup, {once: true});
-
-      function hideOptionsPopup(event) {
-        console.log('hide');
-        if(!optionsPopup.contains(event.target) && !(taskOptions.contains(event.target))){
-          optionsPopup.classList.toggle('popup-hidden');
-          section.classList.toggle('container-scroll');
-          section.classList.toggle('no-hover');
-          taskElement.classList.toggle('freeze');
-          document.removeEventListener('click', hideOptionsPopup);
-      }
-    }
-
-  }
