@@ -23,7 +23,7 @@ export class Task {
     container.innerHTML = '';
 
     /*Tasks*/
-    taskLibrary.forEach( task => {
+    taskLibrary.forEach((task, index) => {
       /*Task Structure*/
       const taskElement = createElement('div', 'task');
       const textSection = createElement('div', 'task-text');
@@ -63,37 +63,7 @@ export class Task {
       const optionsIcon = createSVG("0 0 448 512", "M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z", 'task-icon');
 
       taskOptions.append(optionsIcon);
-      taskOptions.addEventListener('click', () => {
-
-        const section = document.querySelector('.task-section');
-        const options = document.querySelector('.options-bar');
-
-        const rect = taskOptions.getBoundingClientRect();
-        console.log(rect);
-        options.style = `top: ${rect.bottom}px; left: ${rect.right - (rect.width/2)}px;`;
-
-
-        options.classList.toggle('popup-hidden');
-        section.classList.toggle('container-scroll');
-        section.classList.toggle('no-hover');
-        taskElement.classList.toggle('freeze');
-
-        document.addEventListener('click', hideOptionsPopup);
-
-        function hideOptionsPopup(event) {
-          if(!options.contains(event.target) && !(taskOptions.contains(event.target))){
-            options.classList.toggle('popup-hidden');
-            section.classList.toggle('container-scroll');
-            section.classList.toggle('no-hover');
-            taskElement.classList.toggle('freeze');
-  
-            document.removeEventListener('click', hideOptionsPopup);
-        }
-        }
-      });
-  
-  
-
+      taskOptions.addEventListener('click', (event) => {handleShowPopup(event, taskElement, index)});
 
       /*Assemble Task*/
       taskElement.append(textSection, propertiesSection);
@@ -105,3 +75,58 @@ export class Task {
     });
   }
 
+
+  function handleShowPopup(event, taskElement, index) {
+    event.stopPropagation();
+    let optionsPopup = document.querySelector('#options-popup');
+    let editButton = document.querySelector('#edit-button');
+    let deleteButton = document.querySelector('#delete-button');
+    
+    /*Check Popup Exists*/
+    if(!optionsPopup){
+      optionsPopup = createElement('div', 'options-popup popup-hidden', {id: 'options-popup'});
+      editButton = createElement('button', 'options-button', {id: 'edit-button'}, 'Edit');
+
+      deleteButton = createElement('button', 'options-button', {id: 'delete-button'}, 'Delete');
+      deleteButton.addEventListener('click', (event) => {handleDeleteTask(index)});
+
+      optionsPopup.append(editButton, deleteButton);
+      document.querySelector('#popup-container').append(optionsPopup);
+
+      function handleDeleteTask(index) {
+        console.log(taskLibrary);
+        taskLibrary.splice(index, 1);
+        console.log(taskLibrary);
+        deleteButton.removeEventListener('click', handleDeleteTask);
+        generateTasks();
+      }
+    }
+    const section = document.querySelector('.task-section');
+    const taskOptions = document.querySelector('#task-options');
+
+    /*Adjust Popup Position*/
+    const rect = taskOptions.getBoundingClientRect();
+    console.log(rect);
+    optionsPopup.style = `top: ${rect.bottom}px; left: ${rect.right - (rect.width/2)}px;`;
+
+    /*Toggle Style Classes*/
+    optionsPopup.classList.toggle('popup-hidden');
+    section.classList.toggle('container-scroll');
+    section.classList.toggle('no-hover');
+    taskElement.classList.toggle('freeze');
+
+    /*Add Hide Popup Listener*/
+    document.addEventListener('click', hideOptionsPopup, {once: true});
+
+      function hideOptionsPopup(event) {
+        console.log('hide');
+        if(!optionsPopup.contains(event.target) && !(taskOptions.contains(event.target))){
+          optionsPopup.classList.toggle('popup-hidden');
+          section.classList.toggle('container-scroll');
+          section.classList.toggle('no-hover');
+          taskElement.classList.toggle('freeze');
+          document.removeEventListener('click', hideOptionsPopup);
+      }
+    }
+
+  }

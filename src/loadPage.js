@@ -53,15 +53,8 @@ export function loadPage() {
 
   taskButton.addEventListener("click", () => {document.querySelector('.task-modal').showModal()});
 
-  /*Popup*/
-  const popupContainer = createElement('div', 'popup-container');
-
-  const optionsBar = createElement('div', 'options-bar popup-hidden');
-  const editButton = createElement('button', 'options-button', '', 'Edit');
-  const deleteButton = createElement('button', 'options-button', '', 'Delete');
-  
-  optionsBar.append(editButton, deleteButton);
-  popupContainer.append(optionsBar);
+  /*Popup Container*/
+  const popupContainer = createElement('div', '', {id: 'popup-container'});
   document.body.append(popupContainer);
 
 }
