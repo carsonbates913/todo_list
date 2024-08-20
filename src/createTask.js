@@ -71,7 +71,7 @@ export function generateTasks() {
     taskOptions.addEventListener('click', (event) =>{
       currentTask = taskElement;
       currentIndex = index;
-      handleTaskOptions(event, index);
+      handleTaskOptions(event);
     }
     );
 
@@ -115,21 +115,21 @@ function handleTaskOptions(event, index) {
 
 /*Create Popup Function*/
   
-function createOptionsPopup(index) {
+function createOptionsPopup() {
   const optionsPopup = createElement('div', 'options-popup popup-hidden', {id: 'options-popup'});
 
   const editButton = createElement('button', 'options-button', {id: 'edit-button'}, 'Edit');
   editButton.addEventListener('click', ()=> {handleEditTask(index)});
 
   const deleteButton = createElement('button', 'options-button', {id: 'delete-button'}, 'Delete');
-  deleteButton.addEventListener('click', () => {handleDeleteTask(index)});
+  deleteButton.addEventListener('click', handleDeleteTask);
 
   optionsPopup.append(editButton, deleteButton);
   document.querySelector('#popup-container').append(optionsPopup);
 
-  function handleDeleteTask(index) {
+  function handleDeleteTask() {
     console.log(taskLibrary);
-    taskLibrary.splice(index, 1);
+    taskLibrary.splice(currentIndex, 1);
     localStorage.setItem('taskLibrary', JSON.stringify(taskLibrary));
     console.log(taskLibrary);
     toggleFreezeSection();
