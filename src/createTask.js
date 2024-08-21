@@ -1,5 +1,7 @@
 import { createElement, addListeners, createSVG, applySvgGradient, createIconButton} from './DOMtool.js';
 
+import { showPopup } from './popup.js';
+
 const taskLibrary = JSON.parse(localStorage.getItem('taskLibrary'));
 let currentTask = null;
 let isOptionsVisible = false;
@@ -71,7 +73,7 @@ export function generateTasks() {
     taskOptions.addEventListener('click', (event) =>{
       currentTask = taskElement;
       currentIndex = index;
-      handleTaskOptions(event);
+      showPopup(event, '#options-popup', createTaskOptionsPopup, taskOptions, toggleFreezeSection);
     }
     );
 
@@ -85,37 +87,9 @@ export function generateTasks() {
   });
 }
 
-/*Task Options Button Handler */
-function handleTaskOptions(event, index) {
-  event.stopPropagation();
-  /*Check Popup Exists*/
-    const optionsPopup = document.querySelector('#options-popup') ?
-      document.querySelector('#options-popup') :
-      createOptionsPopup(index);
-
-  /*Adjust Popup Position*/
-  positionPopup(currentTask.querySelector('#task-options'));
-
-  /*Toggle Hidden Class*/
-  toggleOptionsVisibility();
-  toggleFreezeSection();
-
-  /*Freeze Task*/
-  currentTask.classList.toggle('freeze');
-
-  /*Add Hide Popup Listener*/
-  if(isOptionsVisible){
-    document.addEventListener('click', closeOptionsPopup);
-    console.log('add');
-  }else {
-    document.removeEventListener('click', closeOptionsPopup)
-    console.log('remove');
-  }
-}
-
 /*Create Popup Function*/
   
-function createOptionsPopup() {
+function createTaskOptionsPopup() {
   const optionsPopup = createElement('div', 'options-popup popup-hidden', {id: 'options-popup'});
 
   const editButton = createElement('button', 'options-button', {id: 'edit-button'}, 'Edit');
@@ -128,10 +102,8 @@ function createOptionsPopup() {
   document.querySelector('#popup-container').append(optionsPopup);
 
   function handleDeleteTask() {
-    console.log(taskLibrary);
     taskLibrary.splice(currentIndex, 1);
     localStorage.setItem('taskLibrary', JSON.stringify(taskLibrary));
-    console.log(taskLibrary);
     toggleFreezeSection();
     toggleOptionsVisibility();
     currentTask = null;
@@ -149,7 +121,7 @@ function createOptionsPopup() {
     document.querySelector('#progress-input').value = task.progress;
     document.querySelector('#tag-input').value = task.tag;
   }
-
+  console.log('created');
   return optionsPopup;
 }
 
@@ -181,4 +153,5 @@ function toggleFreezeSection() {
   const section = document.querySelector('.task-section');
   section.classList.toggle('container-scroll');
   section.classList.toggle('no-hover');
+  currentTask.classList.toggle('freeze');
 }

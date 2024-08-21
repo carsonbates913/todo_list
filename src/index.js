@@ -4,5 +4,6 @@ import { loadTaskModal } from './loadTaskMaker.js'
 
 
 document.addEventListener('DOMContentLoaded', () =>{
-  
+  loadPage();
+  loadTaskModal();
 })
