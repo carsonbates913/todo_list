@@ -1,6 +1,6 @@
 import { createElement, addListeners, createSVG, applySvgGradient, createIconButton} from './DOMtool.js';
 
-import {Task} from './createTask.js';
+import {Task, TaskManager } from './task.js';
 
 export function loadTaskModal() {
   /*Modal Structure*/
@@ -83,7 +83,7 @@ export function loadTaskModal() {
     const tag = document.querySelector('#tag-input').value;
 
     const task = new Task(title, description, dueDate, workTime, progressInput, tag);
-    task.addTask();
+    TaskManager.addTask(task);
     clearInputs();
 
   }

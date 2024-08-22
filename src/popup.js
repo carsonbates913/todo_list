@@ -19,7 +19,7 @@ export function showPopup(event, id, popupGenerator, anchorElement, functionPara
   functionParam();
   anchor = anchorElement;
   currentPopup = document.querySelector(id) || popupGenerator();
-  
+
   toggleVisibility();
   adjustLocation(anchorElement);
   document.addEventListener('click', handleClosePopup);
@@ -38,7 +38,7 @@ function adjustLocation(anchorElement){
   currentPopup.style.left = `${rect.right - (rect.width/2)}px`
 }
 
-function closePopup() {
+export function closePopup() {
   toggleVisibility();
   currentPopup = null;
   isPopupActive = false;
