@@ -2,6 +2,10 @@ import { createElement, addListeners, createSVG, applySvgGradient, createIconBut
 
 import {Task, TaskManager } from './task.js';
 
+import { renderTasks } from './ui.js';
+
+const idCounter = 0; 
+
 export function loadTaskModal() {
   /*Modal Structure*/
   const modal = createElement('dialog', 'task-modal');
@@ -82,10 +86,13 @@ export function loadTaskModal() {
     const progressInput = document.querySelector('#progress-input').value;
     const tag = document.querySelector('#tag-input').value;
 
-    const task = new Task(title, description, dueDate, workTime, progressInput, tag);
-    TaskManager.addTask(task);
-    clearInputs();
+    idCounter++;
+    const taskId = idCounter;
 
+    const task = new Task(taskId, title, description, dueDate, workTime, progressInput, tag);
+    TaskManager.addTask(task);
+    renderTasks();
+    clearInputs();
   }
 
   /*Assemble Modal*/

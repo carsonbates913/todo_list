@@ -1,7 +1,10 @@
 import { createElement, addListeners, createSVG, applySvgGradient, createIconButton} from './DOMtool.js';
 
+let currentTask = null;
+
 export class Task {
-  constructor(title, description, dueDate, workTime, progress, tag){
+  constructor(id, title, description, dueDate, workTime, progress, tag){
+    this.id = id;
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
@@ -62,20 +65,21 @@ export class Task {
 export class TaskManager {
   static taskLibrary = []
 
+
   static getAllTasks(){
-    return taskLibrary;
+    return TaskManager.taskLibrary;
   }
 
   static addTask(task){
-    taskLibrary.push(task);
+    TaskManager.taskLibrary.push(task);
   }
 
   static deleteTask(task){
-    taskLibrary.splice(taskLibrary.indexOf(task), 1);
+    TaskManager.taskLibrary.splice(taskLibrary.indexOf(task), 1);
   }
 
   static editTask(index, title, description, workTime, dueDate, progress, tag){
-    let task = taskLibrary[index];
+    let task = TaskManager.taskLibrary[index];
     task.setTitle(title);
     task.setDescription(description);
     task.setWorkTime(workTime);

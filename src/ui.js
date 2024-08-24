@@ -1,5 +1,6 @@
+import { createElement, addListeners, createSVG, applySvgGradient, createIconButton} from './DOMtool.js';
 
-import { Task, TaskManager } from './task.js';
+import { TaskManager } from './task.js';
 
 import { showPopup, closePopup } from './popup.js';
 
@@ -52,7 +53,7 @@ export function renderTasks() {
 
     taskOptions.append(optionsIcon);
     taskOptions.addEventListener('click', (event) =>{
-      currentTask = task; 
+      currentTask = taskElement; 
       showPopup(event, '#options-popup', createTaskOptionsPopup, taskOptions, toggleFreezeSection);
     }
     );
@@ -94,8 +95,8 @@ export function createTaskOptionsPopup() {
 }
 
 function handleDeleteTask() {
-  TaskManager.deleteTask(currentTask);
   closePopup();
+  TaskManager.deleteTask(currentTask);
   currentTask = null;
   renderTasks();
 }
