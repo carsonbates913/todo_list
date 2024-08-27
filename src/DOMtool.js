@@ -10,12 +10,6 @@ function createElement(tag, className = '', attributes = {}, innerText = '') {
   return element;
 }
 
-function addListeners(element, events){
-  for (const i of Object.keys(events)){
-    element.addEventListener(i, events[i]);
-  }
-}
-
 function createSVG(viewBox, path, className){
   const svgns = "http://www.w3.org/2000/svg";
 
@@ -57,10 +51,4 @@ function applySvgGradient(svgElement, colors , degree = '0', id = 'gradient'
   targetElement.setAttribute("fill", `url(#${id})`);
 }
 
-const createIconButton = (buttonClass, svg) => {
-  const button = createElement('button', buttonClass);
-  button.appendChild(svg);
-  return button;
-};
-
-export { createElement, addListeners, createSVG, applySvgGradient, createIconButton};
+export { createElement, createSVG, applySvgGradient};

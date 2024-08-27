@@ -31,11 +31,8 @@ h3 {
   color: transparent;
 }
 
-header {
+.home-header {
   margin: 0 0 20px 0;
-}
-
-.header-container {
   padding: 20px 50px;
   display: flex;
   flex-direction: row;
@@ -50,7 +47,7 @@ header {
   align-items: center;
 }
 
-.header-welcome h1 {
+.header-date{
   font-family: forma-djr-display, sans-serif;
   font-size: 100px;
   background: linear-gradient(pink 5%, blue 110%);
@@ -58,7 +55,7 @@ header {
   color: transparent;
 }
 
-.header-welcome h3 {
+.header-greeting {
   align-self: flex-end;
 }
 
@@ -87,7 +84,7 @@ header {
   transform: scale(1.2);
 }
 
-.header-icon {
+.nav-button-icon {
   height: 60px;
   width: 60px;
   transition: width 1s, height 1s;
