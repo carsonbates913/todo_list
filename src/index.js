@@ -1,14 +1,9 @@
-import ('./index.css'); 
-import { loadTaskModal } from './loadTaskMaker.js'
-
-loadTaskModal();
+import './style/index.css';
+import { taskModal } from './scripts/index/loadTaskMaker.js'
+import { renderTasks } from './scripts/index/taskList.js'
 
 
 document.addEventListener('DOMContentLoaded', () =>{
-
-  document.querySelector('.button-add-task').addEventListener("click", () => {document.querySelector('.task-modal').showModal()});
-  loadPage();
-  loadTaskModal();
-})
-
-console.log('video');
+  renderTasks();
+  document.querySelector('.button-add-task').addEventListener("click", () => {taskModal.show()});
+});
