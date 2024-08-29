@@ -1,5 +1,5 @@
 import './style/index.css';
-import { taskModal } from './scripts/index/loadTaskMaker.js'
+import { taskModal } from './scripts/taskModal.js'
 import { renderTasks } from './scripts/index/taskList.js'
 
 

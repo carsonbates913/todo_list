@@ -27,7 +27,6 @@ export function showPopup(event, id, popupGenerator, anchorElement, functionPara
   document.addEventListener('click', handleClosePopup);
 
   isPopupActive = true;
-
 }
 
 function toggleVisibility() {
