@@ -1,4 +1,4 @@
-import { createElement, addListeners, createSVG, applySvgGradient, createIconButton} from '../../tool/DOMtool.js';
+import { createElement, createSVG, applySvgGradient} from '../../tool/DOMtool.js';
 import { TaskManager } from '../../data/taskManager.js';
 import { showPopup, closePopup, currentPopup } from '../../model/popup.js';
 import { currentTaskId, isEditing } from '../../state/stateManager.js';
