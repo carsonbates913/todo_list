@@ -38,7 +38,7 @@ export class TaskManager {
     TaskManager.saveToStorage();
   }
 
-  static editTask(id, title, description, workTime, dueDate, progress, tag){
+  static editTask(id, title, description, dueDate, workTime, progress, tag){
     let task = TaskManager.getTask(id).details;
     console.log(task);
     task.setTitle(title);
