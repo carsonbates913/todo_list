@@ -1,8 +1,8 @@
-import { createElement, createSVG, applySvgGradient} from '../../tool/DOMtool.js';
-import { Task } from '../../model/task.js';
-import { TaskManager } from '../../data/taskManager.js';
-import { renderTasks } from './taskList.js';
-import {currentTaskId, isEditing} from '../../state/stateManager.js';
+import { createElement, createSVG, applySvgGradient} from '../tool/DOMtool.js';
+import { Task } from '../model/task.js';
+import { TaskManager } from '../data/taskManager.js';
+import { renderTasks } from './index/taskList.js';
+import {currentTaskId, isEditing} from '../state/stateManager.js';
 export const taskModal = (function(){
   let modal;
 
@@ -50,6 +50,8 @@ export const taskModal = (function(){
       event.preventDefault();
       closeModal();
       const taskForm = document.querySelector('.create-task-form');
+
+      console.log(taskForm['due-date-input'].value);
     
       const title = taskForm['title-input'].value;
       const description = taskForm['description-input'].value;
@@ -57,6 +59,7 @@ export const taskModal = (function(){
       const workTime = taskForm['work-time-input'].value;
       const progressInput = taskForm['progress-input'].value;
       const tag = taskForm['tag-input'].value;
+      console.log(dueDate);
 
       if(isEditing){
         TaskManager.editTask(currentTaskId, title, description, dueDate, workTime, progressInput, tag);
@@ -81,22 +84,38 @@ export const taskModal = (function(){
     })
   }
 
+
+  //Fix Due Date and Work Time Functions, they are swapped!!
   function prefillEdit(taskDetails){
     const taskForm = document.querySelector('.create-task-form');
-    console.log(taskDetails);
-    
     taskForm['title-input'].value = taskDetails.title;
     taskForm['description-input'].value = taskDetails.description;
     taskForm['due-date-input'].value = taskDetails.dueDate;
     taskForm['work-time-input'].value = taskDetails.workTime;
     taskForm['progress-input'].value = taskDetails.progress;
     taskForm['tag-input'].value = taskDetails.tag;
+
+      document.querySelectorAll('input').forEach(input => {
+        if((document.querySelector(`#${input.getAttribute('id')}-checker`)) && ((taskForm[`${input.getAttribute('id')}`].value !== ''))){ 
+          document.querySelector(`#${input.getAttribute('id')}-checker`).click()
+        }
+      })
   }
+
+//(taskForm[`${input.getAttribute('id')}`].value !== '')
 
   function showModal(){
     if(!document.querySelector('.task-modal')){
       createTaskModal();
     }
+    
+    document.querySelectorAll('input[type="checkbox"]').forEach(checker => {
+      if(checker.checked){
+        checker.click(); 
+      }
+    });
+    /*&& (taskForm[`${input.getAttribute('id')}`].value != '')*/
+
     modal.showModal();
   }
 
