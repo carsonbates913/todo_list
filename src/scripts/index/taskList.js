@@ -1,7 +1,7 @@
-import { createElement, createSVG, applySvgGradient} from '../../tool/DOMtool.js';
+import { createElement, createSVG} from '../../tool/DOMtool.js';
 import { TaskManager } from '../../data/taskManager.js';
-import { showPopup, closePopup, currentPopup } from '../../model/popup.js';
-import { currentTaskId, isEditing } from '../../state/stateManager.js';
+import { showPopup, closePopup} from '../../model/popup.js';
+import { setCurrentTaskId, getCurrentTaskId, setIsEditing } from '../../state/stateManager.js';
 import { taskModal } from '../taskModal.js';
 
 export function renderTasks() {
@@ -65,7 +65,7 @@ export function renderTasks() {
 
   document.querySelectorAll('.js-task-options').forEach(button => {
     button.addEventListener('click', (event) =>{
-      currentTaskId = button.dataset.taskId;
+      setCurrentTaskId(button.dataset.taskId);
       showPopup(event, '#options-popup', createTaskOptionsPopup, button, toggleFreezeSection);
     });
   });
@@ -88,15 +88,14 @@ export function createTaskOptionsPopup() {
 
 function handleDeleteTask() {
   closePopup();
-  TaskManager.deleteTask(currentTaskId);
+  TaskManager.deleteTask(getCurrentTaskId());
   renderTasks();
 }
 
 function handleEditTask() {
   closePopup();
-  let matchingDetails = TaskManager.getTask(currentTaskId).details;
-  console.log(matchingDetails);
-  isEditing = true;
+  let matchingDetails = TaskManager.getTask(getCurrentTaskId()).details;
+  setIsEditing(true);
   taskModal.show();
   taskModal.prefillEdit(matchingDetails);
 }
@@ -105,5 +104,5 @@ function toggleFreezeSection() {
   const section = document.querySelector('.task-section');
   section.classList.toggle('container-scroll');
   section.classList.toggle('no-hover');
-  document.querySelector(`.js-task-${currentTaskId}`).classList.toggle('freeze');
+  document.querySelector(`.js-task-${getCurrentTaskId()}`).classList.toggle('freeze');
 }
