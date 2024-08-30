@@ -1,15 +1,16 @@
-import { createElement, createSVG, applySvgGradient} from '../tool/DOMtool.js';
+import { createElement} from '../tool/DOMtool.js';
 import { Task } from '../model/task.js';
 import { TaskManager } from '../data/taskManager.js';
 import { renderTasks } from './index/taskList.js';
-import {currentTaskId, isEditing} from '../state/stateManager.js';
+import {getCurrentTaskId, getIsEditing, setIsEditing} from '../state/stateManager.js';
 export const taskModal = (function(){
   let modal;
 
+  /*Create the HTML of Task Modal*/
   function createTaskModal() {
     /*Modal Structure*/
     modal = createElement('dialog', 'task-modal');
-    const taskForm = createElement('form', 'create-task-form');
+    const taskForm = createElement('form', 'create-task-form', {novalidate: ''});
     const leftSide = createElement('div', 'form-section');
     const rightSide = createElement('div', "form-section");
 
@@ -22,7 +23,7 @@ export const taskModal = (function(){
     const progressOptions = [ 'Not Started', 'Starting', 'Halfway', 'Almost', 'Complete'];
 
     /*Form Sections*/
-    const titleForm = createFormField('title-input', 'Title', 'text');
+    const titleForm = createFormField('title-input', 'Title', 'text', '', '', true);
     const descriptionForm = createFormField('description-input', 'Description', 'textArea');
     const dueDateForm = createFormField('due-date-input', 'Due Date', 'date', true);
     const workTimeForm = createFormField('work-time-input', 'Work Time', 'time', true);
@@ -33,7 +34,7 @@ export const taskModal = (function(){
     const cancelTask = createElement('button', 'cancel-button', {id: 'cancel-task'}, 'X');
 
     /*Submit Button*/
-    const submitTask = createElement('button', 'submit-button', '', 'Submit');
+    const submitTask = createElement('button', 'submit-button', {type: 'submit'}, 'Submit');
 
     /*Assemble Modal*/
     document.body.append(modal);
@@ -43,15 +44,16 @@ export const taskModal = (function(){
     rightSide.append(dueDateForm, workTimeForm, progressForm, tagForm, submitTask);
 
     addEventListeners();
+    //addFormValidation();
   }
 
+  /*Add Event Listeners to HTML Elements*/
   function addEventListeners(){
-    document.querySelector('.submit-button').addEventListener('click', (event) => {
-      event.preventDefault();
+    /*Submit Form*/
+    document.querySelector('.create-task-form').addEventListener('submit', (event) => {
+
       closeModal();
       const taskForm = document.querySelector('.create-task-form');
-
-      console.log(taskForm['due-date-input'].value);
     
       const title = taskForm['title-input'].value;
       const description = taskForm['description-input'].value;
@@ -59,11 +61,9 @@ export const taskModal = (function(){
       const workTime = taskForm['work-time-input'].value;
       const progressInput = taskForm['progress-input'].value;
       const tag = taskForm['tag-input'].value;
-      console.log(dueDate);
 
-      if(isEditing){
-        TaskManager.editTask(currentTaskId, title, description, dueDate, workTime, progressInput, tag);
-        isEditing = false; 
+      if(getIsEditing()){
+        TaskManager.editTask(getCurrentTaskId(), title, description, dueDate, workTime, progressInput, tag);
       }else{
       TaskManager.idCounterIncrement();
       const taskId = TaskManager.getIdCounter();
@@ -71,21 +71,29 @@ export const taskModal = (function(){
       const task = new Task(title, description, dueDate, workTime, progressInput, tag);
       TaskManager.addTask(task, taskId);
       }
-      isEditing = false;
+      setIsEditing(false);
       renderTasks();
       clearInputs();
     });
 
+    /*Cancel Button*/
     document.querySelector('.cancel-button').addEventListener('click', (event) => {
       event.preventDefault();
-      isEditing = false;
+      setIsEditing(false);
       closeModal();
       clearInputs();
     })
   }
 
+  /*Add Form Validation*/
+  /*function addFormValidation() {
+    const titleInput = document.querySelector('.title-input');
+    titleInput.addEventListener('input', () => {
+      titleInput.
+    })
+  }*/
 
-  //Fix Due Date and Work Time Functions, they are swapped!!
+
   function prefillEdit(taskDetails){
     const taskForm = document.querySelector('.create-task-form');
     taskForm['title-input'].value = taskDetails.title;
@@ -133,13 +141,13 @@ export const taskModal = (function(){
 
 
 /*Form Field Fuction*/
-function createFormField(inputId, labelText, inputType, hasToggle = false, selectorOptions = []){
+function createFormField(inputId, labelText, inputType, hasToggle=false, selectorOptions=[], isRequired=false){
   const form = createElement('div', 'form-div');
   const label = createElement('label', '', {for: inputId}, labelText);
   let input;
 
   if(inputType== 'select'){
-    input = createElement('select', '', {type: inputType, id: inputId, name: inputId});
+    input = createElement('select', '', {type: inputType, id: inputId, name: inputId, ...(isRequired && {required: true})});
     input.append(createElement('option', '', {value: '', disabled: '', hidden: '', selected: ''}, ''));
     selectorOptions.forEach(option => {
       const optionElement = createElement('option', '', {value: `${option}`}, `${option}`);
@@ -147,10 +155,10 @@ function createFormField(inputId, labelText, inputType, hasToggle = false, selec
     });
   }else if(inputType=='textArea')
     {
-    input = createElement('textArea','', {type: inputType, id: inputId, name: inputId});
+    input = createElement('textArea','', {type: inputType, id: inputId, name: inputId, ...(isRequired && {required: true})});
   }else
   {
-    input = createElement('input','', {type: inputType, id: inputId});
+    input = createElement('input','', {type: inputType, id: inputId, autocomplete: "off", ...(isRequired && {required: ''})});
   }
   form.append(label, input);
 

@@ -399,6 +399,10 @@ h3 {
   flex-flow: column;
 }
 
+input {
+  appearance: none;
+}
+
 textArea, input[type='text']{
   padding: .5rem 1rem;
   border-radius: 10px;
