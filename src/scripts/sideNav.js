@@ -1,4 +1,4 @@
-import { createElement, createSVG, applySvgGradient} from '../tool/DOMtool.js';
+import { createElement} from '../tool/DOMtool.js';
 
 export function loadSideNav(){
   const navContainer = createElement('div', 'container-side-nav');

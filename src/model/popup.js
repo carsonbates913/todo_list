@@ -1,5 +1,3 @@
-import { currentTask } from '../state/stateManager.js';
-
 let currentPopup = null;
 let isPopupActive = false;
 let anchor = null;

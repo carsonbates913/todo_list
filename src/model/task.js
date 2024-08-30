@@ -1,5 +1,3 @@
-import { createElement, addListeners, createSVG, applySvgGradient, createIconButton} from '../tool/DOMtool.js';
-
 export class Task {
   constructor(title, description, dueDate, workTime, progress, tag){
     this.title = title;

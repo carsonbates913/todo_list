@@ -40,7 +40,6 @@ export class TaskManager {
 
   static editTask(id, title, description, dueDate, workTime, progress, tag){
     let task = TaskManager.getTask(id).details;
-    console.log(task);
     task.setTitle(title);
     task.setDescription(description);
     task.setWorkTime(workTime);
@@ -66,7 +65,6 @@ export class TaskManager {
 
   static loadFromStorage(){
     const storedInfo = JSON.parse(localStorage.getItem('storage-tasks')) || [];
-    console.log(storedInfo);
     const processedInfo = storedInfo.map(task => ({
       details: (new Task(task.details.title, task.details.description, task.details.dueDate, task.details.workTime, task.details.progress, task.details.tag)),
       id: task.id
